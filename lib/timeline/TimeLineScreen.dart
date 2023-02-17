@@ -150,7 +150,7 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new_rounded,
-                 color: Colors.white,
+                color: Colors.white,
                 size: 20,
               ),
               onPressed: () {
@@ -189,7 +189,86 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _graphView(),
+                    Stack(
+                      children: [
+                        _graphView(),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            margin: EdgeInsets.only(top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 1,
+                                        ),
+                                        color: Colors.white,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(16.0),
+                                        )),
+                                    margin: const EdgeInsets.only(
+                                      left: 10,
+                                    ),
+                                    width: 60,
+                                    child: DropdownButton<dropdownData>(
+                                      //  value: data[0],
+                                      iconSize: 20,
+                                      isExpanded: true,
+                                      icon: Icon(Icons.settings,
+                                          color: AppColor.colorFont, size: 26),
+                                      iconEnabledColor: Colors.black,
+                                      underline: const SizedBox(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          if (newValue!.name ==
+                                              "สร้างไทม์ไลน์เพิ่ม") {
+                                            timeLineBloc.newTimeLine();
+                                            if (timeLineBloc.isGraph1) {
+                                              timeLineBloc.selectTimeLine = 2;
+                                            }
+                                            timeLineBloc.isEdit = false;
+                                            isSave = false;
+                                          }
+                                          if (newValue!.name ==
+                                              "เลือกไทม์ไลน์") {
+                                            setState(
+                                              () {
+                                                timeLineBloc.onSelectTimeLine =
+                                                    true;
+                                                timeLineBloc.check();
+                                              },
+                                            );
+                                          }
+                                          if (newValue!.name ==
+                                              "แก้ไขไทม์ไลน์นี้") {
+                                            timeLineBloc.isEdit = true;
+                                            isSave = false;
+                                          }
+                                          print(newValue.toString());
+                                          // controller.text = newValue!.name;
+                                          //  print(data.getIcon(controller.text).toString());
+                                        });
+                                      },
+                                      items: timeLineBloc.dataSettingGraph
+                                          .map<DropdownMenuItem<dropdownData>>(
+                                              (dropdownData value) {
+                                        return DropdownMenuItem<dropdownData>(
+                                          value: value,
+                                          child: Text(value.name,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                              )),
+                                        );
+                                      }).toList(),
+                                    ))
+                              ],
+                            )),
+                      ],
+                    ),
                   ]),
             ],
           ),
@@ -225,76 +304,6 @@ class _TimeLineScreenState extends State<TimeLineScreen> {
         borderRadius: BorderRadius.circular(38),
       ),
       child: Column(children: [
-        Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            //margin: EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                    height: 10,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1,
-                        ),
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(16.0),
-                        )),
-                    margin: const EdgeInsets.only(left: 10, right: 2, top: 10),
-                    width: 100,
-                    child: DropdownButton<dropdownData>(
-                      //  value: data[0],
-                      iconSize: 24,
-                      isExpanded: true,
-                      icon: Icon(Icons.settings,
-                          color: AppColor.colorFont, size: 20),
-                      iconEnabledColor: Colors.black,
-                      underline: const SizedBox(),
-                      onChanged: (newValue) {
-                        setState(() {
-                          if (newValue!.name == "สร้างไทม์ไลน์เพิ่ม") {
-                            timeLineBloc.newTimeLine();
-                            if (timeLineBloc.isGraph1) {
-                              timeLineBloc.selectTimeLine = 2;
-                            }
-                            timeLineBloc.isEdit = false;
-                            isSave = false;
-                          }
-                          if (newValue!.name == "เลือกไทม์ไลน์") {
-                            setState(
-                              () {
-                                timeLineBloc.onSelectTimeLine = true;
-                                timeLineBloc.check();
-                              },
-                            );
-                          }
-                          if (newValue!.name == "แก้ไขไทม์ไลน์นี้") {
-                            timeLineBloc.isEdit = true;
-                            isSave = false;
-                          }
-                          print(newValue.toString());
-                          // controller.text = newValue!.name;
-                          //  print(data.getIcon(controller.text).toString());
-                        });
-                      },
-                      items: timeLineBloc.dataSettingGraph
-                          .map<DropdownMenuItem<dropdownData>>(
-                              (dropdownData value) {
-                        return DropdownMenuItem<dropdownData>(
-                          value: value,
-                          child: Text(value.name,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                              )),
-                        );
-                      }).toList(),
-                    ))
-              ],
-            )),
         timeLineBloc.onSelectTimeLine
             ? Container(
                 width: MediaQuery.of(context).size.width * 0.45,
