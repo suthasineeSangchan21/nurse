@@ -1,0 +1,16 @@
+${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework
+${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework
+${BUILT_PRODUCTS_DIR}/BSImageView/BSImageView.framework
+${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework
+${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework
+${BUILT_PRODUCTS_DIR}/file_picker/file_picker.framework
+${BUILT_PRODUCTS_DIR}/flutter_native_image/flutter_native_image.framework
+${BUILT_PRODUCTS_DIR}/image_gallery_saver/image_gallery_saver.framework
+${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework
+${BUILT_PRODUCTS_DIR}/multi_image_picker/multi_image_picker.framework
+${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework
+${BUILT_PRODUCTS_DIR}/share_plus/share_plus.framework
+${BUILT_PRODUCTS_DIR}/shared_preferences_foundation/shared_preferences_foundation.framework
