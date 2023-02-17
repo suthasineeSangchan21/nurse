@@ -37,7 +37,7 @@ class VerifyOTPPage extends StatelessWidget {
                           children: const [
                             Icon(
                               Icons.arrow_back_rounded,
-                              color: AppColor.colorPrimary,
+                             color: Colors.white,
                               size: 40,
                             ),
                             SizedBox(

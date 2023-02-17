@@ -57,7 +57,7 @@ class _SignPageState extends State<SignPage> {
                           Row(children: [
                             Icon(
                               Icons.arrow_back_ios,
-                              color: AppColor.colorPrimary,
+                          color: Colors.white,
                               size: 20,
                             ),
                             SizedBox(

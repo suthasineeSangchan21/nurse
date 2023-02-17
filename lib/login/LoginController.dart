@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nurse_app/login/send_password_page.dart';
 
 import '../../api/base_repository.dart';
 import '../../component/dialog/popup.dart';
@@ -68,11 +69,11 @@ class LoginController {
         await _loginRepository.postForgetPassword(emailController.text);
     response.when(success: (MainResponse data) {
       Navigator.pop(context);
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => SendPasswordPage()),
-      //   (route) => false,
-      // );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SendPasswordPage()),
+        (route) => false,
+      );
     }, failure: (message) {
       Navigator.pop(context);
       popup(context, message);

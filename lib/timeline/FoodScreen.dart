@@ -144,7 +144,7 @@ class _FoodScreenState extends State<FoodScreen> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: Color.fromARGB(255, 79, 78, 78),
+                   color: Colors.white,
               size: 20,
             ),
             onPressed: () {

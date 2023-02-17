@@ -38,7 +38,7 @@ class SuccesVerifyOTPPage extends StatelessWidget {
                     children: const [
                       Icon(
                         Icons.arrow_back_ios,
-                        color: AppColor.colorPrimary,
+                           color: Colors.white,
                         size: 30,
                       ),
                       SizedBox(

@@ -42,7 +42,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                         Icon(
                           Icons.arrow_back_ios,
                           color: AppColor.colorPrimary,
-                          size: 30,
+                          size: 20,
                         ),
                       ],
                     ),
