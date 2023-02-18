@@ -1331,9 +1331,9 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<ShowerResponse>> putShower(
-      graphShowerData showerData, id, userId) async {
+      graphShowerData showerData, id, userId, timelineId) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": showerData.ddate,
       "howToShower": showerData.howToShower,
       "howToTeeth": showerData.howToTeeth,
@@ -1345,7 +1345,8 @@ class RegisterRepository {
       "timeStart": showerData.timeStart,
       "timeEnd": showerData.timeEnd,
       "sumTime": showerData.sumTime,
-      "estimate": showerData.estimate
+      "estimate": showerData.estimate,
+      "timelineId": int.parse(timelineId.toString()),
     };
     print(data);
     try {
@@ -1416,9 +1417,9 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<PhysicResponse>> putPhysical(
-      graphTherapyData therapyData, id, userId) async {
+      graphTherapyData therapyData, id, userId, timelineId) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": therapyData.ddate,
       "armLeft": therapyData.armLeft,
       "armRight": therapyData.armRight,
@@ -1431,6 +1432,7 @@ class RegisterRepository {
       "timeEnd": therapyData.timeEnd,
       "sumTime": therapyData.sumTime,
       "estimate": therapyData.estimate,
+      "timelineId": int.parse(timelineId.toString()),
     };
     print(data);
     try {
@@ -1481,9 +1483,9 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<FlipResponse>> putFlip(
-      graphFlipData flipData, id, userId) async {
+      graphFlipData flipData, id, userId, idForm) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": flipData.ddate,
       "armLeft": "-",
       "armRight": "-",
@@ -1496,7 +1498,9 @@ class RegisterRepository {
       "timeEnd": flipData.timeEnd,
       "sumTime": flipData.sumTime,
       "estimate": flipData.estimate,
+      "timelineId": int.parse(idForm.toString()),
     };
+    print("putFlip");
     print(data);
     try {
       dio = await _helper.dioWithHeader();
@@ -1779,9 +1783,9 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<WoundResponse>> putWound(
-      graphWoundData woundData, id, userId) async {
+      graphWoundData woundData, id, userId, timelineId) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": woundData.ddate,
       "area": woundData.area,
       "woundType": woundData.woundType,
@@ -1790,7 +1794,8 @@ class RegisterRepository {
       "timeStart": woundData.timeStart,
       "timeEnd": woundData.timeEnd,
       "sumTime": woundData.sumTime,
-      "estimate": woundData.estimate
+      "estimate": woundData.estimate,
+      "timelineId": int.parse(timelineId.toString()),
     };
     print(data);
     try {
@@ -1967,7 +1972,8 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<WipeRwsponse>> putWipe(
-      graphWipeData wipeData, id, timelineId) async {
+      graphWipeData wipeData, timelineId, id) async {
+    print("putWipe");
     var data = {
       "patientId": int.parse(id),
       "ddate": wipeData.ddate,
@@ -1983,7 +1989,7 @@ class RegisterRepository {
     try {
       dio = await _helper.dioWithHeader();
       Response response =
-          await dio.put(_baseRepository.wipe + "/$id", data: data);
+          await dio.put(_baseRepository.wipe + "/$timelineId", data: data);
       return response.statusCode == 201 || response.statusCode == 200
           ? ApiResponse.success(data: WipeRwsponse.fromJson(response.data))
           : ApiResponse.failure(message: response.statusMessage.toString());
@@ -2020,9 +2026,9 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<HealthResponse>> putHealth(
-      graphHealthData healthData, id, userId) async {
+      graphHealthData healthData, id, userId, idForm) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": healthData.ddate,
       "weight": healthData.weight.toString(),
       "hight": healthData.hight.toString(),
@@ -2038,7 +2044,8 @@ class RegisterRepository {
       "timeStart": healthData.timeStart,
       "timeEnd": healthData.timeEnd,
       "sumTime": healthData.sumTime,
-      "estimate": healthData.estimate
+      "estimate": healthData.estimate,
+      "timelineId": int.parse(idForm.toString()),
     };
     print(data);
     print("put" + _baseRepository.health + "/$id");
@@ -2090,16 +2097,17 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<PhlegmResponse>> putPhlegm(
-      graphAspirateData aspirateData, id, userId) async {
+      graphAspirateData aspirateData, id, userId, idForm) async {
     var data = {
-      "patientId": int.parse(id),
+      "patientId": int.parse(userId),
       "ddate": aspirateData.ddate,
       "howTo": aspirateData.howTo,
       "detail": aspirateData.detail,
       "timeStart": aspirateData.timeStart,
       "timeEnd": aspirateData.timeEnd,
       "sumTime": aspirateData.sumTime,
-      "estimate": aspirateData.estimate
+      "estimate": aspirateData.estimate,
+      "timelineId": int.parse(idForm.toString()),
     };
     print(data);
     try {
@@ -2238,7 +2246,7 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<EatResponse>> putEat(
-      graphEatData eatData, id, userId) async {
+      graphEatData eatData, id, userId, idForm) async {
     bool taste;
     if (eatData.taste == "ดี") {
       taste = true;
@@ -2257,7 +2265,8 @@ class RegisterRepository {
       "timeStart": eatData.timeStart,
       "timeEnd": eatData.timeEnd,
       "sumTime": eatData.sumTime,
-      "estimate": eatData.estimate
+      "estimate": eatData.estimate,
+      "timelineId": int.parse(idForm.toString()),
     };
     print(data);
     print("put" + _baseRepository.eat + "/$id");
@@ -2276,7 +2285,7 @@ class RegisterRepository {
   }
 
   Future<ApiResponse<ActivityResponse>> putActivity(
-      graphActivityData activityData, id, userId) async {
+      graphActivityData activityData, id, userId, idForm) async {
     var data = {
       "patientId": int.parse(userId),
       "ddate": activityData.ddate,
@@ -2288,9 +2297,11 @@ class RegisterRepository {
       "timeStart": activityData.timeStart,
       "timeEnd": activityData.timeEnd,
       "sumTime": activityData.sumTime,
-      "estimate": activityData.estimate
+      "estimate": activityData.estimate,
+      "timelineId": int.parse(idForm.toString()),
     };
     print(data);
+    print("putActivity");
     try {
       dio = await _helper.dioWithHeader();
       Response response =

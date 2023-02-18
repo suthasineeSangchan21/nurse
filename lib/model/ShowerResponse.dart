@@ -1,5 +1,5 @@
 class ShowerResponse {
- int? id;
+  int? id;
   int? patientId;
   String? ddate;
   String? howToShower;

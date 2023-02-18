@@ -24,9 +24,12 @@ class LoginRepository {
       };
       print(data);
       Response response = await dio.post(_baseRepository.signInAPI, data: data);
-      return response.statusCode == 201 || response.statusCode == 200
-          ? ApiResponse.success(data: LoginResponse.fromJson(response.data))
-          : ApiResponse.failure(message: response.statusMessage.toString());
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print(response.data.toString());
+        return ApiResponse.success(data: LoginResponse.fromJson(response.data));
+      } else {
+        return ApiResponse.failure(message: response.statusMessage.toString());
+      }
     } catch (error) {
       print(error);
       DioError? e;
@@ -56,8 +59,8 @@ class LoginRepository {
     } catch (e) {
       DioError? ee;
       ee = e as DioError?;
-    //  print(ee!.response!.data!.toString());
-     // var data = MainResponse.fromJson(ee!.response!.data);
+      //  print(ee!.response!.data!.toString());
+      // var data = MainResponse.fromJson(ee!.response!.data);
       return ApiResponse.failure(message: "ลงทะเบียนไม่สำเร็จ");
     }
   }

@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../app/app_screen.dart';
+import '../helper/shared_preferences.dart';
+import '../login/LoginController.dart';
 import '../login/LoginPage.dart';
-
-
 
 class SplashPage extends StatefulWidget {
   @override
@@ -13,10 +14,36 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  var loginController = LoginController();
+
   @override
   void initState() {
     super.initState();
-    _loadWidget();
+    checkAuth();
+  }
+
+  checkAuth() {
+    Future.delayed(Duration(seconds: 2), () {
+      getAccessToken().then((value) => {
+            if (value != "")
+              {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => AppScreen(0)),
+                  (route) => false,
+                )
+              }
+            else
+              {
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return LoginPage();
+                  },
+                ), (_) => false)
+              }
+          });
+    });
   }
 
   @override
@@ -58,20 +85,11 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  _loadWidget() async {
-    //   var _duration = Duration(seconds: 20);
-    // return Timer(_duration, checkLogin(context));
-    Future.delayed(Duration(seconds: 4), () {
-      checkLogin(context);
-    });
-  }
-
-  checkLogin(context) async {
-    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-        MaterialPageRoute(
-      builder: (BuildContext context) {
-        return LoginPage();
-      },
-    ), (_) => false);
-  }
+  // _loadWidget() async {
+  //   //   var _duration = Duration(seconds: 20);
+  //   // return Timer(_duration, checkLogin(context));
+  //   Future.delayed(Duration(seconds: 4), () {
+  //     checkLogin(context);
+  //   });
+  // }
 }

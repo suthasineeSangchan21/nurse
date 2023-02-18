@@ -1,10 +1,10 @@
 class WoundResponse {
-  int? id;
-  int? patientId;
+  String? id;
+  String? patientId;
   String? ddate;
   String? area;
   String? woundType;
-  int? woundSize;
+  String? woundSize;
   String? detail;
   String? timeStart;
   String? timeEnd;
@@ -29,12 +29,12 @@ class WoundResponse {
       this.updatedAt});
 
   WoundResponse.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    patientId = json['patientId'];
+    id = json['id'].toString();
+    patientId = json['patientId'].toString();
     ddate = json['ddate'];
     area = json['area'];
     woundType = json['woundType'];
-    woundSize = json['woundSize'];
+    woundSize = json['woundSize'].toString();
     detail = json['detail'];
     timeStart = json['timeStart'];
     timeEnd = json['timeEnd'];
@@ -46,12 +46,12 @@ class WoundResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['patientId'] = this.patientId;
+    data['id'] = this.id.toString();
+    data['patientId'] = this.patientId.toString();
     data['ddate'] = this.ddate;
     data['area'] = this.area;
     data['woundType'] = this.woundType;
-    data['woundSize'] = this.woundSize;
+    data['woundSize'] = this.woundSize.toString();
     data['detail'] = this.detail;
     data['timeStart'] = this.timeStart;
     data['timeEnd'] = this.timeEnd;

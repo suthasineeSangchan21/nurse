@@ -218,6 +218,7 @@ class TimeLineBloc {
   bool isEditForm = false;
   String userId = "";
   String idForm = "";
+  String idItem = "";
   List<dropdownData> dataFoodDropdown = [];
   List<dropdownData> dataEatDropdown = [];
   List<dropdownData> dataPainDropdown = [];
@@ -668,7 +669,9 @@ class TimeLineBloc {
   }
 
   var showerData = graphShowerData();
+  String ddateShower = "";
   sendShower() async {
+    isEditFormCheck = isEditForm;
     showerData.bodyOdor = bodysmellController.text;
     showerData.ddate = DateTime.now().toString();
     showerData.detail = otherShowerController.text;
@@ -687,8 +690,8 @@ class TimeLineBloc {
     var response;
     if (isEditForm) {
       print("put");
-      response =
-          await _registerRepository.putShower(showerData, idForm, userId);
+      response = await _registerRepository.putShower(
+          showerData, idItem, userId, idForm);
     } else {
       print("post");
       response =
@@ -696,7 +699,11 @@ class TimeLineBloc {
     }
     response.when(
         success: (ShowerResponse data) {
-          // idForm = data.id.toString();
+          print("ShowerResponse:" + data.ddate.toString());
+          ddateShower = data.ddate.toString();
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
+          }
           getShowerList();
         },
         failure: (message) {
@@ -705,8 +712,10 @@ class TimeLineBloc {
         error: (error) {});
   }
 
+  bool isEditFormCheck = false;
   var eatData = graphEatData();
   sendEat() async {
+    isEditFormCheck = isEditForm;
     eatData.canEat = foodPercentController.text;
     eatData.ddate = DateTime.now().toString();
     eatData.detail = otherDetailController.text;
@@ -734,21 +743,22 @@ class TimeLineBloc {
 
     var response;
     if (isEditForm) {
-      response = await _registerRepository.putEat(eatData, idForm, userId);
+      response =
+          await _registerRepository.putEat(eatData, idItem, userId, idForm);
     } else {
       response = await _registerRepository.sendEat(eatData, userId, idForm);
     }
     response.when(
         success: (EatResponse data) {
-          //   idForm = data.id.toString();
-          getFoodList();
-          if (!isEditForm) {
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
             ImageListData.forEach((element) {
               if (element.isAdd) {
                 uploadEat(element.FoodImageFile, data.id.toString());
               }
             });
           }
+          getFoodList();
         },
         failure: (message) {
           getFoodList();
@@ -758,6 +768,8 @@ class TimeLineBloc {
 
   var wipeData = graphWipeData();
   sendWipe() async {
+    bool isEditFormCheck = false;
+    isEditFormCheck = isEditForm;
     wipeData.ddate = DateTime.now().toString();
     wipeData.detail = otherDetailController.text;
     wipeData.estimate = esstimateController.text;
@@ -782,19 +794,20 @@ class TimeLineBloc {
       }
     });
     var response;
+    print("idItem:" + idItem.toString());
+    print('WipeRwsponse1:' + isEditForm.toString());
     if (isEditForm) {
-      response = await _registerRepository.putWipe(wipeData, idForm, userId);
+      response = await _registerRepository.putWipe(wipeData, idItem, userId);
     } else {
       response = await _registerRepository.sendWipe(wipeData, userId, idForm);
     }
-    isEditForm = false;
+
     response.when(
         success: (WipeRwsponse data) {
-          print('WipeRwsponse');
-          //   idForm = data.id.toString();
-          if (!isEditForm) {
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
             ImageListData.forEach((element) {
-              sendImageWipe(element.FoodImageFile, idForm);
+              sendImageWipe(element.FoodImageFile, idItem);
             });
           }
           getWipeList();
@@ -809,7 +822,6 @@ class TimeLineBloc {
     var response = await _registerRepository.sendWipeImage(file, id);
     response.when(
         success: (PhlegmResponse data) {
-          //  idForm = data.id.toString();
           getFlipList();
         },
         failure: (message) {
@@ -820,6 +832,7 @@ class TimeLineBloc {
 
   var flipData = graphFlipData();
   sendFlip() async {
+    isEditFormCheck = isEditForm;
     flipData.ddate = DateTime.now().toString();
     flipData.detail = otherDetailController.text;
     flipData.estimate = esstimateController.text;
@@ -832,14 +845,17 @@ class TimeLineBloc {
 
     var response;
     if (isEditForm) {
-      response = await _registerRepository.putFlip(flipData, idForm, userId);
+      response =
+          await _registerRepository.putFlip(flipData, idItem, userId, idForm);
     } else {
       response = await _registerRepository.sendFlip(flipData, userId, idForm);
     }
 
     response.when(
         success: (FlipResponse data) {
-          //idForm = data.id.toString();
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
+          }
           getFlipList();
         },
         failure: (message) {
@@ -850,6 +866,7 @@ class TimeLineBloc {
 
   var woundData = graphWoundData();
   sendWound() async {
+    isEditFormCheck = isEditForm;
     woundData.ddate = DateTime.now().toString();
     woundData.detail = otherDetailController.text;
     woundData.estimate = esstimateController.text;
@@ -863,14 +880,17 @@ class TimeLineBloc {
     woundData.woundType = woundDetailController.text;
     var response;
     if (isEditForm) {
-      response = await _registerRepository.putWound(woundData, idForm, userId);
+      response =
+          await _registerRepository.putWound(woundData, idItem, userId, idForm);
     } else {
       response = await _registerRepository.sendWound(woundData, userId, idForm);
     }
 
     response.when(
         success: (WoundResponse data) {
-          //  idForm = data.id.toString();
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
+          }
           getWoundList();
         },
         failure: (message) {
@@ -881,6 +901,7 @@ class TimeLineBloc {
 
   var healthData = graphHealthData();
   sendHealth() async {
+    isEditFormCheck = isEditForm;
     healthData.ddate = DateTime.now().toString();
     healthData.detail = otherDetailController.text;
     healthData.estimate = esstimateController.text;
@@ -900,29 +921,32 @@ class TimeLineBloc {
     healthData.pulse2 = controllerHearthless2.text;
     healthData.temp = controllerTemp.text;
     healthData.weight = controllerWeight.text;
-
+    print("isEditForm:" + isEditFormCheck.toString());
     var response;
     if (isEditForm) {
-      response =
-          await _registerRepository.putHealth(healthData, idForm, userId);
+      response = await _registerRepository.putHealth(
+          healthData, idItem, userId, idForm);
     } else {
       response =
           await _registerRepository.sendHealth(healthData, userId, idForm);
     }
 
-    response.when(
-        success: (HealthResponse data) {
-          //  idForm = data.id.toString();
-          getHealthList();
-        },
-        failure: (message) {
-          getHealthList();
-        },
-        error: (error) {});
+    response.when(success: (HealthResponse data) {
+      print("isEditFormCheck:" + isEditFormCheck.toString());
+      if (!isEditFormCheck) {
+        idItem = data.id.toString();
+      }
+      getHealthList();
+    }, failure: (message) {
+      getHealthList();
+    }, error: (error) {
+      getHealthList();
+    });
   }
 
   var therapyData = graphTherapyData();
   sendPhysical() async {
+    isEditFormCheck = isEditForm;
     therapyData.ddate = DateTime.now().toString();
     therapyData.detail = otherDetailController.text;
     therapyData.estimate = esstimateController.text;
@@ -945,8 +969,8 @@ class TimeLineBloc {
 
     var response;
     if (isEditForm) {
-      response =
-          await _registerRepository.putPhysical(therapyData, idForm, userId);
+      response = await _registerRepository.putPhysical(
+          therapyData, idItem, userId, idForm);
     } else {
       response =
           await _registerRepository.sendPhysical(therapyData, userId, idForm);
@@ -954,7 +978,10 @@ class TimeLineBloc {
 
     response.when(
         success: (PhysicResponse data) {
-          //  idForm = data.id.toString();
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
+          }
+
           getPhysicalList();
         },
         failure: (message) {
@@ -965,6 +992,7 @@ class TimeLineBloc {
 
   var activityData = graphActivityData();
   sendActivity() async {
+    isEditFormCheck = isEditForm;
     activityData.ddate = DateTime.now().toString();
     activityData.detail = otherDetailController.text;
     activityData.estimate = esstimateController.text;
@@ -990,22 +1018,22 @@ class TimeLineBloc {
     });
     var response;
     if (isEditForm) {
-      response =
-          await _registerRepository.putActivity(activityData, idForm, userId);
+      response = await _registerRepository.putActivity(
+          activityData, idItem, userId, idForm);
     } else {
       response =
           await _registerRepository.sendActivity(activityData, userId, idForm);
     }
     response.when(success: (ActivityResponse data) {
-      //  idForm = data.id.toString();
       getActivityList();
-      ImageListData.forEach((element) {
-        if (!isEditForm) {
+      if (!isEditFormCheck) {
+        ImageListData.forEach((element) {
+          idItem = data.id.toString();
           if (element.isAdd) {
             uploadActivity(element.FoodImageFile, data.id.toString());
           }
-        }
-      });
+        });
+      }
     }, failure: (message) {
       getActivityList();
     }, error: (error) {
@@ -1015,6 +1043,7 @@ class TimeLineBloc {
 
   var aspirateData = graphAspirateData();
   sendPhlegm() async {
+    isEditFormCheck = isEditForm;
     aspirateData.ddate = DateTime.now().toString();
     aspirateData.detail = otherDetailController.text;
     aspirateData.estimate = esstimateController.text;
@@ -1026,15 +1055,17 @@ class TimeLineBloc {
     aspirateData.howTo = phlegmDetailController.text;
     var response;
     if (isEditForm) {
-      response =
-          await _registerRepository.putPhlegm(aspirateData, idForm, userId);
+      response = await _registerRepository.putPhlegm(
+          aspirateData, idItem, userId, idForm);
     } else {
       response =
           await _registerRepository.sendPhlegm(aspirateData, userId, idForm);
     }
     response.when(
         success: (PhlegmResponse data) {
-          //  idForm = data.id.toString();
+          if (!isEditFormCheck) {
+            idItem = data.id.toString();
+          }
           getPhlegmList();
         },
         failure: (message) {
@@ -1069,14 +1100,14 @@ class TimeLineBloc {
 
     var response;
     if (isEditForm) {
-      response = await _registerRepository.putDrug(drugData, idForm, userId);
+      response = await _registerRepository.putDrug(drugData, idItem, userId);
     } else {
       response =
           await _registerRepository.sendDrug(drugData, idForm, userId, idForm);
     }
     response.when(
         success: (DrugSentResponse data) {
-          //  idForm = data.id.toString();
+          idItem = data.id.toString();
           getDrugList();
         },
         failure: (message) {
@@ -1090,6 +1121,9 @@ class TimeLineBloc {
     response.when(
         success: (List<ShowerResponse> data) {
           products = List.generate(data.length, (i) {
+            if (data[i].ddate == ddateShower) {
+              idItem = data[i].id.toString();
+            }
             String smell = "";
             if (data[i].bodyOdor.toString() == "false") {
               smell = "ไม่มี";
@@ -1115,7 +1149,7 @@ class TimeLineBloc {
               "ประเมิณ": data[i].estimate,
             };
           });
-        //  _getDataGraphSubject.sink.add(products);
+          //  _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1169,7 +1203,7 @@ class TimeLineBloc {
               "12": "",
             };
           });
-         // _getDataGraphSubject.sink.add(products);
+          // _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1283,7 +1317,7 @@ class TimeLineBloc {
             drugTypeController.text = data[0].drugType.toString();
             drugHowtoController.text = data[0].howTo.toString();
           }
-        //  _getDataGraphSubject.sink.add(products);
+          //  _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1319,7 +1353,7 @@ class TimeLineBloc {
             };
           });
 
-         // _getDataGraphSubject.sink.add(products);
+          // _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1418,7 +1452,7 @@ class TimeLineBloc {
               "9": data[i].detail,
             };
           });
-         // _getDataGraphSubject.sink.add(products);
+          // _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1449,7 +1483,7 @@ class TimeLineBloc {
               "13": data[i].co2,
             };
           });
-        //  _getDataGraphSubject.sink.add(products);
+          //  _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1536,7 +1570,7 @@ class TimeLineBloc {
               "13": data[i].timeEnd,
             };
           });
-         // _getDataGraphSubject.sink.add(products);
+          // _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1564,7 +1598,7 @@ class TimeLineBloc {
               "10": data[i].social,
             };
           });
-         // _getDataGraphSubject.sink.add(products);
+          // _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {
@@ -1589,7 +1623,7 @@ class TimeLineBloc {
               "7": data[i].howTo,
             };
           });
-        //  _getDataGraphSubject.sink.add(products);
+          //  _getDataGraphSubject.sink.add(products);
         },
         failure: (message) {},
         error: (error) {

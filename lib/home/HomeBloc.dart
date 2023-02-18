@@ -21,6 +21,7 @@ class HomeBloc {
       BehaviorSubject<List<PatientResponse>>();
   BehaviorSubject<List<PatientResponse>> get getDataPathSubject =>
       _getDataPathSubject;
+      
   getprofileUser() async {
     var response = await _loginRepository.getprofileUser();
     response.when(

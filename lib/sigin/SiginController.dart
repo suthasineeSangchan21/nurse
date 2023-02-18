@@ -53,6 +53,7 @@ class SiginController {
     var response = await _loginRepository.getPositions();
     response.when(
         success: (List<String> data) {
+          print(data.toString());
           positionList = data;
         },
         failure: (message) {},

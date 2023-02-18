@@ -13,6 +13,7 @@ import '../../povider/login_repository.dart';
 import '../app/app_screen.dart';
 import '../component/dialog/loadDialog.dart';
 import '../helper/shared_preferences.dart';
+import '../model/profileUserResponse.dart';
 
 class LoginController {
   var dio = Dio();
@@ -48,12 +49,13 @@ class LoginController {
         password: password, username: username);
     response.when(success: (LoginResponse data) {
       saveAccessToken(data.accessToken!);
-      Navigator.pop(context);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => AppScreen(0)),
-        (route) => false,
-      );
+      getprofileUser(context);
+      // Navigator.pop(context);
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => AppScreen(0)),
+      //   (route) => false,
+      // );
     }, failure: (message) {
       Navigator.pop(context);
       popup(context, "เข้าสู่ระบบไม่สำเร็จ");
@@ -61,6 +63,28 @@ class LoginController {
       Navigator.pop(context);
       popup(context, "เข้าสู่ระบบไม่สำเร็จ");
     });
+  }
+
+  getprofileUser(context) async {
+    var response = await _loginRepository.getprofileUser();
+    response.when(
+        success: (ProfileUserResponse data) {
+          if (data.positionId.toString() == "1" ||
+              data.positionId.toString() == "2") {
+            Navigator.pop(context);
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => AppScreen(0)),
+              (route) => false,
+            );
+          } else {
+            saveAccessToken('');
+            popup(context, "เข้าสู่ระบบไม่สำเร็จ");
+          }
+        },
+        failure: (message) {},
+        error: (error) {});
   }
 
   postForgetPassword(context) async {
