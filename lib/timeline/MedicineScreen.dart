@@ -145,7 +145,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
+              color: Colors.white,
               size: 20,
             ),
             onPressed: () {
@@ -1502,6 +1502,9 @@ class _MedicineScreenState extends State<MedicineScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              width: 30,
+            ),
             Text(
               "เวลาที่ใช้ในการทำ",
               style: TextStyle(color: AppColor.colorFont, fontSize: 14),

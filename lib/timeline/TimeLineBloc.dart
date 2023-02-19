@@ -1092,12 +1092,13 @@ class TimeLineBloc {
         twoDigits(endTime.difference(startTime).inMinutes.remainder(60));
     drugData.timeEnd = DateHelper.convertTimeFormat(endTime);
     drugData.timeStart = DateHelper.convertTimeFormat(startTime);
-    drugData.howTo = otherDetailController.text;
+    drugData.howTo = data.howto.toString();
     drugData.causeOfUse = drugOtherController.text;
     drugData.drugName = data.drugName!;
     drugData.drugType = data.drugGroup.toString();
     drugData.estimate = esstimateController.text;
-
+    drugData.detail = otherDetailController.text;
+    
     var response;
     if (isEditForm) {
       response = await _registerRepository.putDrug(drugData, idItem, userId);

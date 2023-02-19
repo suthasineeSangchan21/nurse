@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "เวอร์ชั่น 1.0.0 (8)",
+                    "เวอร์ชั่น 1.0.0 (10)",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, color: Colors.black),
                   )
