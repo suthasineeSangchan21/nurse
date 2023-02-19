@@ -107,6 +107,7 @@ class RegisterHistoryBloc {
     var response = await _registerRepository.fetchPatien();
     response.when(success: (PatientResponse data) {
       print(data.toString());
+
       _getDataPathSubject.sink.add(data);
     }, failure: (message) {
       //   _bloodPathSubject.sink.addError(message);

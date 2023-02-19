@@ -21,7 +21,7 @@ class HomeBloc {
       BehaviorSubject<List<PatientResponse>>();
   BehaviorSubject<List<PatientResponse>> get getDataPathSubject =>
       _getDataPathSubject;
-      
+
   getprofileUser() async {
     var response = await _loginRepository.getprofileUser();
     response.when(
@@ -33,27 +33,6 @@ class HomeBloc {
   }
 
   List<BehaviorSubject<Uint8List>> imgProfile = [];
-
-  fetchUserList() async {
-    var response = await _registerRepository.fetchPatienList();
-    response.when(
-        success: (List<PatientResponse> data) {
-          data.forEach((element) {
-            BehaviorSubject<Uint8List> _getImgPathSubject =
-                BehaviorSubject<Uint8List>();
-            imgProfile.add(_getImgPathSubject);
-          });
-          int i = 0;
-          data.forEach((element) {
-            callImg(element.id.toString(), imgProfile[i]);
-            i++;
-          });
-
-          _getDataPathSubject.sink.add(data);
-        },
-        failure: (message) {},
-        error: (error) {});
-  }
 
   String convertData(String positionID) {
     if (positionID == '1') {

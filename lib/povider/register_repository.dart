@@ -640,7 +640,7 @@ class RegisterRepository {
     try {
       dio = await _helper.dioWithHeader();
       Response response = await dio.get(_baseRepository.getUser + "/$id");
-      print(response.statusCode);
+      print(response.data.toString());
       return response.statusCode == 201 || response.statusCode == 200
           ? ApiResponse.success(data: PatientResponse.fromJson(response.data))
           : ApiResponse.failure(message: response.statusMessage.toString());

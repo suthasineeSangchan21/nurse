@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 import '../../model/patienResponse.dart';
 import '../../model/profileUserResponse.dart';
 import '../../theme/color.dart';
@@ -24,7 +23,7 @@ class _HomePageState extends State<PatientPage> {
   bool isCheck = false;
   @override
   void initState() {
-    patientBloc.fetchUserList();
+    patientBloc.getprofileUser();
     super.initState();
   }
 
@@ -80,7 +79,7 @@ class _HomePageState extends State<PatientPage> {
                 // )
               ]),
           Container(
-              height: MediaQuery.of(context).size.height * 0.85,
+              height: MediaQuery.of(context).size.height * 0.75,
               margin: const EdgeInsets.only(top: 10),
               child: StreamBuilder<List<PatientResponse>>(
                   stream: patientBloc.getDataPathSubject.stream,
@@ -90,12 +89,11 @@ class _HomePageState extends State<PatientPage> {
                     } else {
                       return Container();
                     }
-                  }))
+                  })),
         ],
       ),
     );
   }
-
 
   Widget _listPatienView(List<PatientResponse> data) {
     return ListView.builder(

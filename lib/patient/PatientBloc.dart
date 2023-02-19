@@ -26,7 +26,8 @@ class PatientBloc {
     var response = await _loginRepository.getprofileUser();
     response.when(
         success: (ProfileUserResponse data) {
-          _profilePathSubject.sink.add(data);
+          fetchUserList(data.id.toString());
+          //  _profilePathSubject.sink.add(data);
         },
         failure: (message) {},
         error: (error) {});
@@ -34,22 +35,28 @@ class PatientBloc {
 
   List<BehaviorSubject<Uint8List>> imgProfile = [];
 
-  fetchUserList() async {
+  fetchUserList(id) async {
     var response = await _registerRepository.fetchPatienList();
     response.when(
         success: (List<PatientResponse> data) {
+          List<PatientResponse> dataUser = [];
           data.forEach((element) {
-            BehaviorSubject<Uint8List> _getImgPathSubject =
-                BehaviorSubject<Uint8List>();
-            imgProfile.add(_getImgPathSubject);
+            if (element.userId.toString() == id) {
+              dataUser.add(element);
+              BehaviorSubject<Uint8List> _getImgPathSubject =
+                  BehaviorSubject<Uint8List>();
+              imgProfile.add(_getImgPathSubject);
+            }
           });
           int i = 0;
           data.forEach((element) {
-            callImg(element.id.toString(), imgProfile[i]);
-            i++;
+            if (element.userId.toString() == id) {
+              callImg(element.id.toString(), imgProfile[i]);
+              i++;
+            }
           });
 
-          _getDataPathSubject.sink.add(data);
+          _getDataPathSubject.sink.add(dataUser);
         },
         failure: (message) {},
         error: (error) {});
